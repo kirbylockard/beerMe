@@ -1,33 +1,35 @@
-const byPostalURL = "https://api.openbrewerydb.org/breweries?by_postal=";
-
+//DOM Manipulation
 const beerByZip = document.getElementById("beerByZip");
+const brewCards = document.querySelector("#brewCards");
 
-// async function start() {
-//   const response = await fetch(`${brewList}`);
-//   const data = await response.json();
-//   console.log(data[0]);
-// }
-
-// start();
-
-const findByPostal = /*async*/ function (url, zip) {
-  fetch(`${url + zip}`)
-    .then(res => res.json())
-    .then(data => console.log("data from findByPostal", data)); //returns OBJECT array of objects
-
-  // const response = await fetch(`${url + zip}`);
-  // const data = await response.json();
-  // return data; //returns promise
+const updateUI = data => {
+  data.forEach(brew => {
+    brewCards.insertAdjacentHTML(
+      "beforeend",
+      `
+        <div class="card">
+          <div class="card-header">${brew.name}</div>
+          <div class="card-body">
+            <div class="card-subtitle mb-2">${brew.brewery_type}</div>
+            <p class="card-text m-0">${brew.street}</p>
+            <p class="card-text m-0">${brew.city}</p>
+            <p class="card-text m-0">${brew.state}</p>
+            <p class="card-text m-0 text-muted">${brew.postal_code}</p>
+            <a href="${brew.website_url}" class="btn btn-primary mt-3">Visit Site</a>
+          </div>
+        </div>
+      `
+    );
+  });
 };
 
-const createHTML = function (breweries) {
-  console.log("type from createHTML", typeof breweries);
-};
-
+//update info on submit
 beerByZip.addEventListener("submit", e => {
   e.preventDefault();
-  const zip = e.target.zip.value;
-  data = findByPostal(byPostalURL, zip);
-  console.log("logged data from event listener", data);
-  createHTML(data);
+
+  const zip = beerByZip.zip.value.trim();
+  beerByZip.reset();
+  findByPostal(byPostalURL, zip)
+    .then(data => updateUI(data))
+    .catch(err => console.log(err));
 });
