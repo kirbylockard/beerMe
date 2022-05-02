@@ -7,7 +7,7 @@ const updateUI = data => {
     brewCards.insertAdjacentHTML(
       "beforeend",
       `
-        <div class="card m-2 p-0">
+        <div class="card m-2 mb-5 p-0">
           <div class="card-header">${brew.name}</div>
           <div class="card-body">
             <div class="card-subtitle mb-2">${brew.brewery_type}</div>
@@ -26,6 +26,8 @@ const updateUI = data => {
 //update info on submit
 search.addEventListener("submit", e => {
   e.preventDefault();
+  brewCards.innerHTML = "";
+  let searchMethod = search.searchMethod.value;
 
   let searchTerm = search.searchTerm.value.trim();
   searchTerm = encodeURIComponent(
@@ -36,7 +38,8 @@ search.addEventListener("submit", e => {
   );
 
   search.reset();
-  findBeer(base, searchTerm)
+
+  findBeer(base, searchMethod, searchTerm)
     .then(data => updateUI(data))
     .catch(err => console.log(err));
 });
