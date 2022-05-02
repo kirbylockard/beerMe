@@ -1,5 +1,5 @@
 //DOM Manipulation
-const beerByZip = document.getElementById("beerByZip");
+const search = document.getElementById("searchBeer");
 const brewCards = document.querySelector("#brewCards");
 
 const updateUI = data => {
@@ -7,7 +7,7 @@ const updateUI = data => {
     brewCards.insertAdjacentHTML(
       "beforeend",
       `
-        <div class="card">
+        <div class="card m-2 p-0">
           <div class="card-header">${brew.name}</div>
           <div class="card-body">
             <div class="card-subtitle mb-2">${brew.brewery_type}</div>
@@ -24,12 +24,19 @@ const updateUI = data => {
 };
 
 //update info on submit
-beerByZip.addEventListener("submit", e => {
+search.addEventListener("submit", e => {
   e.preventDefault();
 
-  const zip = beerByZip.zip.value.trim();
-  beerByZip.reset();
-  findByPostal(byPostalURL, zip)
+  let searchTerm = search.searchTerm.value.trim();
+  searchTerm = encodeURIComponent(
+    searchTerm
+      .split(" ")
+      .filter(item => item.length > 0)
+      .join(" ")
+  );
+
+  search.reset();
+  findBeer(base, searchTerm)
     .then(data => updateUI(data))
     .catch(err => console.log(err));
 });
