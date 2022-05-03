@@ -14,14 +14,14 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container">
         <a class="navbar-brand display-1 fs-1" href="#">Beer Me</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <!--<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <!--  -->
+        
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
           <ul class="navbar-nav d-flex align-items-center justify-content-end">
-            <!--  -->
-            <form id="searchBeer" class="form-check px-0">
+              -->
+        <!-- <form id="searchBeer" class="form-check px-0">
               <div class="searchMethod d-flex justify-content-between my-3">
                 <span>Search By: </span>
                 <div class="form-check form-check-inline">
@@ -37,15 +37,16 @@
                   <label class="form-check-label" for="zip">Zip</label>
                 </div>
               </div>
-              <!--  -->
+              <!--  
               <div class="searchField d-flex justify-content-between my-3">
                 <input type="text" id="searchTerm" placeholder="search" class="me-2" />
                 <input type="submit" value="Find Breweries" />
               </div>
-            </form>
-            <!--  -->
-          </ul>
-        </div>
+            </form> -->
+        <!-- 
+          </ul> 
+        </div>-->
+        <button class="btn btn-primary d-none">Edit Search</button>
       </div>
     </nav>
 
@@ -55,8 +56,29 @@
       <div class="message text-center">
         <div class="welcome">
           <h1 class="display-1">Welcome to Beer Me!</h1>
-          <p class="lead fs-2">The best place to find breweries in the USA.</p>
-          <p class="fs-5 text-muted">To get started, pick a "Search by:" catagory and type in an appropriate search term.</p>
+          <p class="lead fs-2">The best way to find breweries in the USA.</p>
+          <!--  -->
+          <form id="searchBeer" class="bg-light m-2 p-4">
+            <!-- STATE -->
+            <div class="state-option form-check d-flex flex-row align-items-center justify-content-between">
+              <div class="d-flex flex-row align-items-center">
+                <input class="form-check-input" type="checkbox" value="by_state=" id="stateCheck" />
+                <label class="form-check-label fs-5 px-3" for="stateCheck">State</label>
+              </div>
+              <input type="text" id="stateSearch" class="form-control w-75" />
+            </div>
+            <!-- CITY -->
+            <div class="city-option form-check d-flex flex-row align-items-center justify-content-between pt-3">
+              <div class="d-flex flex-row align-items-center">
+                <input class="form-check-input" type="checkbox" value="by_city=" id="cityCheck" />
+                <label class="form-check-label fs-5 px-3" for="cityCheck">City</label>
+              </div>
+              <input type="text" id="citySearch" class="form-control w-75" />
+            </div>
+            <!-- SEARCH BUTTON -->
+            <input type="submit" class="btn btn-primary mt-4" value="Find Breweries" />
+          </form>
+          <!--  -->
         </div>
       </div>
       <div id="brewCards" class="d-flex justify-content-around row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 flex-">
