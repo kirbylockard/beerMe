@@ -4,14 +4,16 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
-    <title>Document</title>
+
+    <title>Beer Me!</title>
   </head>
-  <body>
+  <body class="container-fluid min-vh-100 d-flex flex-column">
     <!-- nav -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container">
-        <a class="navbar-brand" href="#">BeerMe</a>
+        <a class="navbar-brand" href="#">Beer Me</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -23,21 +25,20 @@
               <div class="searchMethod d-flex justify-content-between">
                 <span>Search By: </span>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="searchMethod" id="state" value="state" />
+                  <input class="form-check-input" type="radio" name="searchMethod" id="state" value="by_state=" />
                   <label class="form-check-label" for="state">State</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="searchMethod" id="city" value="city" />
+                  <input class="form-check-input" type="radio" name="searchMethod" id="city" value="by_city=" />
                   <label class="form-check-label" for="city">City</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="searchMethod" id="zip" value="zip" />
+                  <input class="form-check-input" type="radio" name="searchMethod" id="zip" value="by_postal=" />
                   <label class="form-check-label" for="zip">Zip</label>
                 </div>
               </div>
               <!--  -->
               <div class="searchField d-flex justify-content-between my-2">
-                <!-- <label for="searchTerm">Beer by City</label> -->
                 <input type="text" id="searchTerm" placeholder="search" class="me-2" />
                 <input type="submit" value="Find Breweries" />
               </div>
@@ -50,7 +51,14 @@
 
     <!--  -->
     <!-- main -->
-    <main id="breweries" class="container mt-4">
+    <main id="breweries" class="container mt-4 flex-grow-1 d-flex flex-column justify-content-center align-items-center">
+      <div class="message text-center">
+        <div class="welcome">
+          <h1 class="display-1">Welcome to Beer Me!</h1>
+          <p class="lead fs-2">The best place to find breweries in the USA.</p>
+          <p class="fs-5 text-muted">To get started, pick a "Search by:" catagory and type in an appropriate search term.</p>
+        </div>
+      </div>
       <div id="brewCards" class="d-flex justify-content-around row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 flex-">
         <!-- Dynamically create and insert this below -->
         <!--  -->
