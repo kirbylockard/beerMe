@@ -44,44 +44,63 @@ const updateUI = data => {
   }
 };
 
+//check.value == bystate=
+//check.checked == true/false
+//check.parentElement.nextElementSibling.value == search field
+const validateForm = checks => {
+  let errors = 0;
+  let result = null;
+  checks.forEach(check => {
+    if (check.checked && check.parentElement.nextElementSibling.value.trim() !== "") {
+      searchMethods.push(check.value);
+      searchTerms.push(check.parentElement.nextElementSibling.value.trim());
+    } else if (check.checked && check.parentElement.nextElementSibling.value.trim() === "") {
+      //add warning to complete search field
+      console.log(check.parentElement.parentElement.previousElementSibling.classList.remove("d-none"));
+      errors += 1;
+    }
+  });
+  if (errors > 0 || searchMethods.length === 0) {
+    result = false;
+  } else {
+    result = true;
+  }
+  return result;
+};
+
 //update info on submit
 search.addEventListener("submit", e => {
   e.preventDefault();
-  message.innerHTML = "";
-  brewCards.innerHTML = "";
-  editSearch.classList.remove("d-none");
+  console.log("submit");
+  //remove errors
+  let errs = document.querySelectorAll(".err");
+  errs.forEach(err => {
+    err.classList.add("d-none");
+  });
   //reset search info on submit
   searchMethods = [];
   searchTerms = [];
   const checks = search.querySelectorAll(".form-check-input");
 
-  //validateForm()
-  //if searches are incomplete
-  //  display warnings on appropriate search fields
-  //  return false to entire event
+  if (validateForm(checks)) {
+    message.innerHTML = "";
+    brewCards.innerHTML = "";
+    editSearch.classList.remove("d-none");
 
-  //check.value == bystate=
-  //check.checked == true/false
-  //check.parentElement.nextElementSibling.value == search field
-  //iterate all check boxes in form
-  checks.forEach(check => {
-    if (check.checked && check.parentElement.nextElementSibling.value.trim() !== "") {
-      searchMethods.push(check.value);
-      searchTerms.push(check.parentElement.nextElementSibling.value.trim());
-    }
-  });
+    let encodedTerms = searchTerms.map(term => {
+      term = encodeURIComponent(
+        term
+          .split(" ")
+          .filter(item => item.length > 0)
+          .join(" ")
+      );
+      return term;
+    });
 
-  let encodedTerms = searchTerms.map(term => {
-    term = encodeURIComponent(
-      term
-        .split(" ")
-        .filter(item => item.length > 0)
-        .join(" ")
-    );
-    return term;
-  });
-
-  findBeer(searchMethods, encodedTerms)
-    .then(data => updateUI(data))
-    .catch(err => console.log(err));
+    findBeer(searchMethods, encodedTerms)
+      .then(data => updateUI(data))
+      .catch(err => console.log(err));
+  } else {
+    return false;
+  }
 });
