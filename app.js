@@ -3,6 +3,7 @@ const search = document.getElementById("searchBeer");
 const brewCards = document.querySelector("#brewCards");
 const message = document.querySelector(".message");
 const editSearch = document.querySelector(".editSearch");
+const editSearchForm = document.querySelector("#editSearchForm");
 
 const createBrewCardTemplate = brew => {
   return `
@@ -16,7 +17,7 @@ const createBrewCardTemplate = brew => {
         <p class="card-text m-0">State: ${brew.state}</p>
         <p class="card-text m-0 text-muted">Zip: ${brew.postal_code}</p>
       </div>
-      <a href="${brew.website_url}" class="btn btn-primary mt-3">Visit Site</a>
+      <a href="${brew.website_url}" class="btn btn-primary mt-3" target="_blank" >Visit Site</a>
     </div>
   </div>
   `;
@@ -25,7 +26,7 @@ const wasted = `
 <div class="err">
 <h1 class="display-1">Wasted!</h1>
 <p class="lead fs-2">Looks like something went wrong.</p>
-<p class="fs-5 text-muted">Make sure you have a "Search by:" catagory selected.</p>
+<p class="fs-5 text-muted">Double check your search fields.</p>
 <p class="fs-5 text-muted">Don't forget to check spelling too!</p>
 <p class="fs-5 text-muted">If you've done everything right, there may not be breweries in that area...</p>
 </div>
@@ -81,6 +82,43 @@ search.addEventListener("submit", e => {
   searchMethods = [];
   searchTerms = [];
   const checks = search.querySelectorAll(".form-check-input");
+
+  if (validateForm(checks)) {
+    message.innerHTML = "";
+    brewCards.innerHTML = "";
+    editSearch.classList.remove("d-none");
+
+    let encodedTerms = searchTerms.map(term => {
+      term = encodeURIComponent(
+        term
+          .split(" ")
+          .filter(item => item.length > 0)
+          .join(" ")
+      );
+      return term;
+    });
+
+    findBeer(searchMethods, encodedTerms)
+      .then(data => updateUI(data))
+      .catch(err => console.log(err));
+  } else {
+    return false;
+  }
+});
+
+//EDIT
+editSearchForm.addEventListener("submit", e => {
+  e.preventDefault();
+  console.log("submit from edit");
+  //remove errors
+  let errs = document.querySelectorAll(".err");
+  errs.forEach(err => {
+    err.classList.add("d-none");
+  });
+  //reset search info on submit
+  searchMethods = [];
+  searchTerms = [];
+  const checks = editSearchForm.querySelectorAll(".form-check-input");
 
   if (validateForm(checks)) {
     message.innerHTML = "";
