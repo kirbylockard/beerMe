@@ -73,6 +73,7 @@ const validateForm = checks => {
 editSearchForm.addEventListener("submit", e => {
   e.preventDefault();
   console.log("submit from edit");
+  const modal = document.querySelector(".modal");
   //remove errors
   let errs = document.querySelectorAll(".err");
   errs.forEach(err => {
