@@ -4,6 +4,10 @@ const brewCards = document.querySelector("#brewCards");
 const message = document.querySelector(".message");
 const editSearch = document.querySelector(".editSearch");
 const editSearchForm = document.querySelector("#editSearchForm");
+const startSearch = document.querySelector("#startSearch");
+const modal = new bootstrap.Modal(document.querySelector(".modal"), {
+  keyboard: false
+});
 
 const createBrewCardTemplate = brew => {
   return `
@@ -69,11 +73,14 @@ const validateForm = checks => {
   return result;
 };
 
+startSearch.addEventListener("click", e => {
+  modal.show();
+});
+
 //EDIT
 editSearchForm.addEventListener("submit", e => {
   e.preventDefault();
   console.log("submit from edit");
-  const modal = document.querySelector(".modal");
   //remove errors
   let errs = document.querySelectorAll(".err");
   errs.forEach(err => {
@@ -98,7 +105,7 @@ editSearchForm.addEventListener("submit", e => {
       );
       return term;
     });
-
+    modal.hide();
     findBeer(searchMethods, encodedTerms)
       .then(data => updateUI(data))
       .catch(err => console.log(err));
