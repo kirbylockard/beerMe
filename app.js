@@ -69,43 +69,6 @@ const validateForm = checks => {
   return result;
 };
 
-//update info on submit
-search.addEventListener("submit", e => {
-  e.preventDefault();
-  console.log("submit");
-  //remove errors
-  let errs = document.querySelectorAll(".err");
-  errs.forEach(err => {
-    err.classList.add("d-none");
-  });
-  //reset search info on submit
-  searchMethods = [];
-  searchTerms = [];
-  const checks = search.querySelectorAll(".form-check-input");
-
-  if (validateForm(checks)) {
-    message.innerHTML = "";
-    brewCards.innerHTML = "";
-    editSearch.classList.remove("d-none");
-
-    let encodedTerms = searchTerms.map(term => {
-      term = encodeURIComponent(
-        term
-          .split(" ")
-          .filter(item => item.length > 0)
-          .join(" ")
-      );
-      return term;
-    });
-
-    findBeer(searchMethods, encodedTerms)
-      .then(data => updateUI(data))
-      .catch(err => console.log(err));
-  } else {
-    return false;
-  }
-});
-
 //EDIT
 editSearchForm.addEventListener("submit", e => {
   e.preventDefault();

@@ -25,29 +25,8 @@
         <div class="welcome">
           <h1 class="display-1">Welcome to Beer Me!</h1>
           <p class="lead fs-2">The best way to find breweries in the USA.</p>
-          <!--  -->
-          <form id="searchBeer" class="bg-light m-2 p-4">
-            <!-- STATE -->
-            <div class="err text-start fs-6 text-danger py-1 d-none">You must include a search value or uncheck the field below.</div>
-            <div class="state-option form-check d-flex flex-row align-items-center justify-content-between mt-2 mb-3">
-              <div class="d-flex flex-row align-items-center">
-                <input class="form-check-input" type="checkbox" value="by_state=" id="stateCheck" />
-                <label class="form-check-label fs-5 px-3" for="stateCheck">State</label>
-              </div>
-              <input type="text" id="stateSearch" class="form-control w-75" placeholder="state name" />
-            </div>
-            <!-- CITY -->
-            <div class="err text-start fs-6 text-danger py-1 d-none">You must include a search value or uncheck the field below.</div>
-            <div class="city-option form-check d-flex flex-row align-items-center justify-content-between mt-2 mb-3">
-              <div class="d-flex flex-row align-items-center">
-                <input class="form-check-input" type="checkbox" value="by_city=" id="cityCheck" />
-                <label class="form-check-label fs-5 px-3" for="cityCheck">City</label>
-              </div>
-              <input type="text" id="citySearch" class="form-control w-75" placeholder="city name" />
-            </div>
-            <!-- SEARCH BUTTON -->
-            <input type="submit" class="btn btn-primary mt-4" value="Find Breweries" />
-          </form>
+          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editBeer">Start a Search</button>
+
           <!--  -->
         </div>
       </div>
@@ -57,9 +36,10 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="modal-title">Edit Search</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <button type="submit" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+              <!--FORM INFO -->
               <form id="editSearchForm" class="bg-light m-2 p-4">
                 <!-- STATE -->
                 <div class="err text-start fs-6 text-danger py-1 d-none">You must include a search value or uncheck the field below.</div>
@@ -80,7 +60,7 @@
                   <input type="text" id="citySearch" class="form-control w-75" placeholder="city name" />
                 </div>
                 <!-- SEARCH BUTTON -->
-                <input type="submit" class="btn btn-primary mt-4" value="Update Breweries" data-bs-dismiss="modal" />
+                <input type="submit" class="btn btn-primary mt-4" value="Search for Breweries" />
               </form>
             </div>
           </div>
