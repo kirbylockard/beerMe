@@ -1,13 +1,15 @@
 //DOM Manipulation
-const search = document.getElementById("searchBeer");
+// const search = document.getElementById("searchBeer");
 const brewCards = document.querySelector("#brewCards");
 const message = document.querySelector(".message");
 const editSearch = document.querySelector(".editSearch");
 const editSearchForm = document.querySelector("#editSearchForm");
 const startSearch = document.querySelector("#startSearch");
 const modal = new bootstrap.Modal(document.querySelector(".modal"), {
-  keyboard: false
+  focus: true,
+  keyboard: true
 });
+const loadMore = document.querySelector("#loadMore");
 
 const createBrewCardTemplate = brew => {
   return `
@@ -38,6 +40,8 @@ const wasted = `
 
 let searchMethods = [];
 let searchTerms = [];
+let encodedTerms = [];
+let page = 1;
 
 const updateUI = data => {
   if (data.length > 0) {
@@ -95,8 +99,9 @@ editSearchForm.addEventListener("submit", e => {
     message.innerHTML = "";
     brewCards.innerHTML = "";
     editSearch.classList.remove("d-none");
+    page = 1;
 
-    let encodedTerms = searchTerms.map(term => {
+    encodedTerms = searchTerms.map(term => {
       term = encodeURIComponent(
         term
           .split(" ")
@@ -106,10 +111,20 @@ editSearchForm.addEventListener("submit", e => {
       return term;
     });
     modal.hide();
-    findBeer(searchMethods, encodedTerms)
+    loadMore.parentElement.classList.remove("d-none");
+
+    findBeer(searchMethods, encodedTerms, page)
       .then(data => updateUI(data))
       .catch(err => console.log(err));
   } else {
     return false;
   }
+});
+
+loadMore.addEventListener("click", () => {
+  page++;
+  //api call with page arg
+  findBeer(searchMethods, encodedTerms, page)
+    .then(data => updateUI(data))
+    .catch(err => console.log(err));
 });
