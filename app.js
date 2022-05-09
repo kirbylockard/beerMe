@@ -10,6 +10,8 @@ const modal = new bootstrap.Modal(document.querySelector(".modal"), {
   keyboard: true
 });
 const loadMore = document.querySelector("#loadMore");
+const stateList = document.querySelector("#stateSearch");
+const cityList = document.querySelector("#citySearch");
 
 const createBrewCardTemplate = brew => {
   return `
@@ -52,6 +54,25 @@ const updateUI = data => {
     message.innerHTML = `${wasted}`;
   }
 };
+
+//Populate dropdown with states
+const populateDropdown = function (dropdown, propName, data) {
+  data.forEach(location => {
+    dropdown.innerHTML += `<option value="${location[propName]}">${location[propName]}</option>`;
+  });
+};
+
+getToken()
+  .then(data => getLocations(data.auth_token, statesURL, "United States"))
+  .then(data => populateDropdown(stateList, "state_name", data))
+  .catch(err => console.log(err));
+
+stateList.addEventListener("change", e => {
+  let state = stateList.value;
+  getToken()
+    .then(data => getLocations(data.auth_token, citiesURL, state))
+    .then(data => populateDropdown(cityList, "city_name", data));
+});
 
 //check.value == bystate=
 //check.checked == true/false

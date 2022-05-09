@@ -43,20 +43,25 @@
                 <!-- STATE -->
                 <div class="err text-start fs-6 text-danger py-1 d-none">You must include a search value or uncheck the field below.</div>
                 <div class="state-option form-check d-flex flex-row align-items-center justify-content-between mt-2 mb-3">
-                  <div class="d-flex flex-row align-items-center">
+                  <div class="d-flex flex-row align-items-center w-25">
                     <input class="form-check-input" type="checkbox" value="by_state=" id="stateCheck" />
                     <label class="form-check-label fs-5 px-3" for="stateCheck">State</label>
                   </div>
-                  <input type="text" id="stateSearch" class="form-control w-75" placeholder="state name" />
+                  <select class="form-select" id="stateSearch" aria-label="select state" style="max-height: 100px; overflow: auto">
+                    <option selected>Choose a State</option>
+                  </select>
                 </div>
+
                 <!-- CITY -->
                 <div class="err text-start fs-6 text-danger py-1 d-none">You must include a search value or uncheck the field below.</div>
                 <div class="city-option form-check d-flex flex-row align-items-center justify-content-between mt-2 mb-3">
-                  <div class="d-flex flex-row align-items-center">
+                  <div class="d-flex flex-row align-items-center w-25">
                     <input class="form-check-input" type="checkbox" value="by_city=" id="cityCheck" />
                     <label class="form-check-label fs-5 px-3" for="cityCheck">City</label>
                   </div>
-                  <input type="text" id="citySearch" class="form-control w-75" placeholder="city name" />
+                  <select class="form-select" id="citySearch" aria-label="select city" style="max-height: 100px; overflow: auto">
+                    <option selected>Choose a City</option>
+                  </select>
                 </div>
                 <!-- SEARCH BUTTON -->
                 <input type="submit" class="btn btn-primary mt-4" value="Search for Breweries" />

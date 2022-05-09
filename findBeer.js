@@ -2,6 +2,9 @@
 
 const base = "https://api.openbrewerydb.org/breweries?";
 
+const statesURL = "states/";
+let citiesURL = "cities/";
+
 const findBeer = async function (searchMethods, encodedTerms, page) {
   //build query
   let query = "";
@@ -14,9 +17,7 @@ const findBeer = async function (searchMethods, encodedTerms, page) {
   }
   query = query + `&page=${page}`;
   const response = await fetch(`${base + query}`); //returns a promise
-  console.log(response);
   const data = await response.json();
-  console.log(data);
   return data;
 };
 
@@ -30,12 +31,10 @@ const getToken = async function () {
   return response.json();
 };
 
-const getLocations = async function (token) {
-  const response = await fetch("https://www.universal-tutorial.com/api/states/United States", {
+const getLocations = async function (token, endpoint, locale) {
+  const response = await fetch("https://www.universal-tutorial.com/api/" + endpoint + locale, {
     headers: new Headers({ Authorization: `Bearer ${token}`, Accept: "application/json" })
   });
   const data = await response.json();
-  console.log(data);
+  return data;
 };
-
-getToken().then(data => getLocations(data.auth_token));
