@@ -57,7 +57,8 @@ const updateUI = data => {
       brewCards.insertAdjacentHTML("beforeend", createBrewCardTemplate(brew));
     });
   } else {
-    swapLoad();
+    lastDrop.classList.add("d-none");
+    loadMore.classList.add("d-none");
     message.innerHTML = `${wasted}`;
   }
 };
@@ -158,7 +159,7 @@ editSearchForm.addEventListener("submit", e => {
 
     modal.hide();
     lastDrop.classList.add("d-none");
-    swapLoad();
+    loadMore.classList.remove("d-none");
 
     findBeer(searchMethods, searchTerms, page)
       .then(data => updateUI(data))
@@ -168,21 +169,14 @@ editSearchForm.addEventListener("submit", e => {
   }
 });
 
-const swapLoad = function () {
-  loadMore.classList.toggle("d-none");
-};
-const swapDrop = function () {
-  lastDrop.classList.toggle("d-none");
-};
-
 loadMore.addEventListener("click", () => {
   page++;
   //api call with page arg
   findBeer(searchMethods, searchTerms, page)
     .then(data => {
       if (data.length === 0) {
-        swapDrop();
-        swapLoad();
+        lastDrop.classList.remove("d-none");
+        loadMore.classList.add("d-none");
       } else {
         updateUI(data);
       }
