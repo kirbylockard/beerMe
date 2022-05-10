@@ -17,6 +17,11 @@ const cityCheck = document.querySelector("#cityCheck");
 const checks = document.querySelectorAll(".form-check-input");
 
 const createBrewCardTemplate = brew => {
+  for (let [key, value] of Object.entries(brew)) {
+    if (value === null) {
+      brew[`${key}`] = "*unavailable*";
+    }
+  }
   return `
   <div class="card m-2 mb-5 p-0">
     <div class="card-header">${brew.name}</div>
