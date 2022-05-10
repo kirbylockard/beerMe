@@ -59,6 +59,9 @@ const updateUI = data => {
 
 //Populate dropdown with states
 const populateDropdown = function (dropdown, propName, data) {
+  if (dropdown === cityList) {
+    dropdown.innerHTML = "<option selected>Choose a City</option>";
+  }
   data.forEach(location => {
     dropdown.innerHTML += `<option value="${location[propName]}">${location[propName]}</option>`;
   });
