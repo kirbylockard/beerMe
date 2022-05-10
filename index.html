@@ -38,6 +38,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+              <div class="form-instructions fs-5">Check one or more boxes for search criteria and then select a search term from it's dropdown menu.</div>
               <!--FORM INFO -->
               <form id="editSearchForm" class="bg-light m-2 p-4">
                 <!-- STATE -->
@@ -47,7 +48,7 @@
                     <input class="form-check-input" type="checkbox" value="by_state=" id="stateCheck" />
                     <label class="form-check-label fs-5 px-3" for="stateCheck">State</label>
                   </div>
-                  <select class="form-select" id="stateSearch" aria-label="select state" style="max-height: 100px; overflow: auto">
+                  <select class="form-select" id="stateSearch" aria-label="select state" disabled style="max-height: 100px; overflow: auto">
                     <option selected>Choose a State</option>
                   </select>
                 </div>
@@ -56,11 +57,32 @@
                 <div class="err text-start fs-6 text-danger py-1 d-none">You must include a search value or uncheck the field below.</div>
                 <div class="city-option form-check d-flex flex-row align-items-center justify-content-between mt-2 mb-3">
                   <div class="d-flex flex-row align-items-center w-25">
-                    <input class="form-check-input" type="checkbox" value="by_city=" id="cityCheck" />
+                    <input class="form-check-input" type="checkbox" disabled value="by_city=" id="cityCheck" />
                     <label class="form-check-label fs-5 px-3" for="cityCheck">City</label>
                   </div>
-                  <select class="form-select" id="citySearch" aria-label="select city" style="max-height: 100px; overflow: auto">
+                  <select class="form-select" id="citySearch" disabled aria-label="select city" style="max-height: 100px; overflow: auto">
                     <option selected>Choose a City</option>
+                  </select>
+                </div>
+                <!-- TYPE -->
+                <div class="err text-start fs-6 text-danger py-1 d-none">You must include a search value or uncheck the field below.</div>
+                <div class="type-option form-check d-flex flex-row align-items-center justify-content-between mt-2 mb-3">
+                  <div class="d-flex flex-row align-items-center w-25">
+                    <input class="form-check-input" type="checkbox" value="by_type=" id="typeCheck" />
+                    <label class="form-check-label fs-5 px-3" for="typeCheck">Type</label>
+                  </div>
+                  <select class="form-select" id="typeSearch" aria-label="select type" disabled style="max-height: 100px; overflow: auto">
+                    <option selected>Choose a Type</option>
+                    <option value="micro">Micro</option>
+                    <option value="nano">Nano</option>
+                    <option value="regional">Regional</option>
+                    <option value="brewpub">Brewpub</option>
+                    <option value="large">Large</option>
+                    <option value="planning">Planning</option>
+                    <option value="bar">Bar</option>
+                    <option value="contract">Contract</option>
+                    <option value="proprietor">Proprietor</option>
+                    <option value="closed">Closed</option>
                   </select>
                 </div>
                 <!-- SEARCH BUTTON -->
@@ -77,8 +99,9 @@
         <!--  -->
         <!-- Dynamically create and insert this above -->
       </div>
-      <div class="container-fluid d-flex justify-content-center my-5 d-none">
-        <button id="loadMore" class="btn btn-primary col-12 col-md-8 col-lg-4">Pour More Brews</button>
+      <div class="container-fluid d-flex justify-content-center my-5">
+        <button id="loadMore" class="btn btn-primary col-12 col-md-8 col-lg-4 d-none">Pour More Brews</button>
+        <p class="text-muted fs-2 d-none" id="lastDrop">Looks like that was the last drop...</p>
       </div>
     </main>
     <!-- footer -->

@@ -12,6 +12,9 @@ const modal = new bootstrap.Modal(document.querySelector(".modal"), {
 const loadMore = document.querySelector("#loadMore");
 const stateList = document.querySelector("#stateSearch");
 const cityList = document.querySelector("#citySearch");
+const stateCheck = document.querySelector("#stateCheck");
+const cityCheck = document.querySelector("#cityCheck");
+const checks = document.querySelectorAll(".form-check-input");
 
 const createBrewCardTemplate = brew => {
   return `
@@ -34,9 +37,7 @@ const wasted = `
 <div class="err">
 <h1 class="display-1">Wasted!</h1>
 <p class="lead fs-2">Looks like something went wrong.</p>
-<p class="fs-5 text-muted">Double check your search fields.</p>
-<p class="fs-5 text-muted">Don't forget to check spelling too!</p>
-<p class="fs-5 text-muted">If you've done everything right, there may not be breweries in that area...</p>
+<p class="fs-5 text-muted">There may not be breweries matching your search...</p>
 </div>
 `;
 
@@ -51,6 +52,7 @@ const updateUI = data => {
       brewCards.insertAdjacentHTML("beforeend", createBrewCardTemplate(brew));
     });
   } else {
+    swapLoad();
     message.innerHTML = `${wasted}`;
   }
 };
@@ -74,6 +76,26 @@ stateList.addEventListener("change", e => {
     .then(data => populateDropdown(cityList, "city_name", data));
 });
 
+//DISABLE DROPDOWNS IF NOT CHECKED
+checks.forEach(check => {
+  check.addEventListener("change", () => {
+    if (check.checked) {
+      check.parentElement.nextElementSibling.disabled = false;
+    } else {
+      check.parentElement.nextElementSibling.disabled = true;
+    }
+  });
+});
+
+//ENABLE OR DISABLE CITY BASED ON STATE
+stateCheck.addEventListener("change", () => {
+  if (stateCheck.checked) {
+    cityCheck.disabled = false;
+  } else {
+    cityCheck.disabled = true;
+  }
+});
+
 //check.value == bystate=
 //check.checked == true/false
 //check.parentElement.nextElementSibling.value == search field
@@ -81,13 +103,17 @@ const validateForm = checks => {
   let errors = 0;
   let result = null;
   checks.forEach(check => {
-    if (check.checked && check.parentElement.nextElementSibling.value.trim() !== "") {
+    if (check.disabled === true) {
+      return;
+    } else if (check.checked && !check.parentElement.nextElementSibling.value.includes("Choose a ")) {
       searchMethods.push(check.value);
-      searchTerms.push(check.parentElement.nextElementSibling.value.trim());
-    } else if (check.checked && check.parentElement.nextElementSibling.value.trim() === "") {
+      searchTerms.push(check.parentElement.nextElementSibling.value);
+    } else if (check.checked && check.parentElement.nextElementSibling.value.includes("Choose a ")) {
       //add warning to complete search field
-      console.log(check.parentElement.parentElement.previousElementSibling.classList.remove("d-none"));
+      check.parentElement.parentElement.previousElementSibling.classList.remove("d-none");
       errors += 1;
+    } else if (searchMethods.length === 0) {
+      //add form instructions
     }
   });
   if (errors > 0 || searchMethods.length === 0) {
@@ -122,19 +148,11 @@ editSearchForm.addEventListener("submit", e => {
     editSearch.classList.remove("d-none");
     page = 1;
 
-    encodedTerms = searchTerms.map(term => {
-      term = encodeURIComponent(
-        term
-          .split(" ")
-          .filter(item => item.length > 0)
-          .join(" ")
-      );
-      return term;
-    });
     modal.hide();
-    loadMore.parentElement.classList.remove("d-none");
+    lastDrop.classList.add("d-none");
+    swapLoad();
 
-    findBeer(searchMethods, encodedTerms, page)
+    findBeer(searchMethods, searchTerms, page)
       .then(data => updateUI(data))
       .catch(err => console.log(err));
   } else {
@@ -142,10 +160,24 @@ editSearchForm.addEventListener("submit", e => {
   }
 });
 
+const swapLoad = function () {
+  loadMore.classList.toggle("d-none");
+};
+const swapDrop = function () {
+  lastDrop.classList.toggle("d-none");
+};
+
 loadMore.addEventListener("click", () => {
   page++;
   //api call with page arg
-  findBeer(searchMethods, encodedTerms, page)
-    .then(data => updateUI(data))
+  findBeer(searchMethods, searchTerms, page)
+    .then(data => {
+      if (data.length === 0) {
+        swapDrop();
+        swapLoad();
+      } else {
+        updateUI(data);
+      }
+    })
     .catch(err => console.log(err));
 });
